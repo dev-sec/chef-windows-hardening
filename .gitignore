@@ -1,4 +1,5 @@
 
 *.pem
 
-.chef/knife.rb
+.chef*
+Berks*
