@@ -1,6 +1,19 @@
 # base-win2012-hardening
+This cookbook provides recipes for ensuring that a Windows 2012 R2 system is compliant with the Base Windows Chef Compliance profile.
 
-TODO: Enter the cookbook description here.
+## Coding guidelines
+Use Chef resources wherever possible. Lock files have been used for secedit.exe and auditpol commands. The registry_key resource has been used extensively.
 
-# Manual boot node
+## Testing the cookbook
+As the results of the cookbook need to be verified by running a Compliance scan against them it is recommended to use an EC2 instance in a Chef environment, made up of a Chef Server and a Compliance Server. The following command can be used for bootstrapping a node.
+
+### Bootstrap a test node
 `knife ec2 server create --node-name windows-test --flavor t2.medium --image ami-29eb7e5a --security-group-ids sg-238e5744 --user-data win-userdata.ps1 --winrm-user Administrator --winrm-password Ch4ng3m3 --ssh-key emea-sa-shared -r 'recipe[base-win2012-hardening::enable_winrm_access]'`
+
+**Please note the following:**
+* To bootstrap a Windows node using Knife you need a predictable password. The `win-userdata.ps1` file, in this repo, provides this.
+* You need a security group that allows winrm access and RDP access.
+* We set a run-list. The `enable_winrm_access` recipe prepares the node for a manual Compliance scan.
+
+## Applying at scale
+This cookbook is currently only for testing purposes, or to demonstrate the Asses & Remediate workflow, for Windows.If you wish to apply this at scale, use a role and add the cookbook to its runlist, there is no need to apply a specific recipe.
