@@ -1,21 +1,44 @@
 ---
 driver:
-  name: vagrant
+  name: ec2
+  aws_ssh_key_id: your_key
+  region: eu-west-1
+  availability_zone: b
+  require_chef_omnibus: true
+  instance_type: m1.small
+  associate_public_ip: true
+  interface: dns
+  security_group_ids: ["your SG ID"]
+  shared_credentials_profile: default
+
+verifier: 
+  name: inspec
 
 provisioner:
-  name: chef_zero
+  name: chef_solo
+  client_rb:
+    audit_mode: :enabled
 
-# Uncomment the following verifier to leverage Inspec instead of Busser (the
-# default verifier)
-# verifier:
-#   name: inspec
+transport:
+  ssh_key: C:/ssh/key/path
+  connection_timeout: 10
+  connection_retries: 5
 
 platforms:
-  - name: ubuntu-14.04
-  - name: centos-7.1
-
+  - name: windows-2012r2
+    driver:
+      image_id: win2012_ami
+    tags: {
+      Name: "my-kitchen win2012 node",
+        created-by: "my-test-kitchen-win2012"
+    }
+         
 suites:
   - name: default
     run_list:
+      - recipe[base-win2012-hardening::enable_winrm_access]
       - recipe[base-win2012-hardening::default]
     attributes:
+    verifier:
+      inspec_tests:
+        - https://github.com/dev-sec/windows-hardening-benchmark
