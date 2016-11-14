@@ -4,6 +4,7 @@
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
+
 case node['kernel']['os_info']['os_architecture']
 when '64-bit'
   windows_package 'powerShellGet module 64' do
@@ -20,3 +21,12 @@ when '32-bit'
     options '/quiet /norestart'
   end
 end
+
+#include_recipe 'powershell::powershell5'
+
+#chocolatey_package 'powershell'
+
+#powershell_module 'cSecurityOptions' do
+#  package_name 'cSecurityOptions'
+#  action :install
+#end
