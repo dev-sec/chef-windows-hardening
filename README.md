@@ -1,5 +1,5 @@
 # base-win2012-hardening
-This cookbook provides recipes for ensuring that a Windows 2012 R2 system is compliant with the Base Windows Chef Compliance profile.
+This cookbook provides recipes for ensuring that a Windows 2012 R2 system is compliant with the Base Windows 2012 R2 Chef Compliance profile.
 
 ## Coding guidelines
 Use Chef resources wherever possible. Lock files have been used for secedit.exe and auditpol commands. The registry_key resource has been used extensively.
