@@ -20,3 +20,34 @@ This cookbook is currently only for testing purposes, or to demonstrate the Asse
 
 ## Pre-requisites
 gem install kitchen-inspec
+
+## Contributors + Kudos
+
+* Dominik Richter [arlimus](https://github.com/arlimus)
+* Christoph Hartmann [chris-rock](https://github.com/chris-rock)
+* Simon Fisher [simfish85](https://github.com/simfish85)
+* Alex Pop [alexpop](https://github.com/alexpop)
+* Yvo Van Doorn [yvovandoorn](https://github.com/yvovandoorn)
+
+
+## Contributing
+
+See [contributor guideline](CONTRIBUTING.md).
+
+
+## License and Author
+
+* Author:: Joe Gardiner <joe@grdnr.io> <joe@chef.io>
+* Author:: Chef Software Ltd
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
