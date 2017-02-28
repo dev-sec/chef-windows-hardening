@@ -1,8 +1,7 @@
-name 'base-win2012-hardening'
+name 'windows-hardening'
 maintainer 'Joe Gardiner'
 maintainer_email 'joe@chef.io'
-license 'all_rights'
+license 'Apache 2.0'
 description 'Hardneing cookbook for Windows 2012 R2'
-long_description 'Remediates critical issues identified by the Windows base profile in Chef Compliance.'
+long_description 'Remediates critical issues identified by the DevSec Windows baseline'
 version '0.7.1'
-
