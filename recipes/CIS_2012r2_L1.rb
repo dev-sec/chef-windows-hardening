@@ -1,4 +1,26 @@
-# Registry keys for Windows Server2012 R2 hardening GPO
+#
+# Cookbook Name:: base-win2012-hardening
+# Recipe:: CIS_2012r2_L1
+#
+# Copyright (c) 2017 Matt Tunny, All Rights Reserved.
+#
+# Setting below break test-kitchen but required in production, Also this recipe does not include firewall settings.
+# unless ENV['TEST_KITCHEN']
+
+# NTLM Hardening -- This settings breaks WinRM
+if node['NTLM_Harden'] == true
+  # System Policys
+  registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System' do
+    values [{ name: 'LocalAccountTokenFilterPolicy', type: :dword, data: 0 }] # This breaks test-kitchen if enabled
+    action :create
+  end
+  # NTLM Hardening
+  registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0' do
+    values [{ name: 'RestrictReceivingNTLMTraffic', type: :dword, data: 2 },
+            { name: 'RestrictSendingNTLMTraffic', type: :dword, data: 2 }]
+    action :create
+  end
+end
 
 # Winlogon Settings
 registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon' do
@@ -16,7 +38,7 @@ end
 registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa' do
   values [ # { name: 'fullprivilegeauditing', type: :binary, data: 01 }, Removed due to 31 value being passed through chef, added powershell script below
     { name: 'AuditBaseObjects', type: :dword, data: 1 },
-    { name: 'SCENoApplyLegacyAuditPolicy', type: :dword, data: 1 },
+    { name: 'scenoapplylegacyauditpolicy', type: :dword, data: 1 },
     { name: 'DisableDomainCreds', type: :dword, data: 1 },
     { name: 'LimitBlankPasswordUse', type: :dword, data: 1 },
     { name: 'CrashOnAuditFail', type: :dword, data: 0 },
@@ -30,6 +52,7 @@ registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa' do
   action :create
 end
 
+# LSA Setting can't be added via registry_key due to hex key bug'
 powershell_script 'fullprivilegeauditing' do
   code <<-EOH
 Set-ItemProperty -Path "HKLM:\\System\\CurrentControlSet\\Control\\Lsa" -Name fullprivilegeauditing -Value 01
@@ -46,37 +69,33 @@ registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\pku2u' do
   action :create
 end
 
-if node['NTLM_Harden'] == false
-  registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0' do
-    values [{ name: 'NTLMMinServerSec', type: :dword, data: 537_395_200 },
-            { name: 'allownullsessionfallback', type: :dword, data: 0 },
-            # { name: 'RestrictReceivingNTLMTraffic', type: :dword, data: 2 }, # Hashed out due to breaking WinRM
-            # { name: 'RestrictSendingNTLMTraffic', type: :dword, data: 2 }, # Hashed out due to breaking WinRM
-            { name: 'NTLMMinClientSec', type: :dword, data: 537_395_200 },
-            { name: 'AuditReceivingNTLMTraffic', type: :dword, data: 2 }]
-    action :create
-  end
+# NTML Hardening
+registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0' do
+  values [{ name: 'NTLMMinServerSec', type: :dword, data: 537_395_200 },
+          { name: 'allownullsessionfallback', type: :dword, data: 0 },
+          { name: 'NTLMMinClientSec', type: :dword, data: 537_395_200 },
+          { name: 'AuditReceivingNTLMTraffic', type: :dword, data: 2 }]
+  action :create
 end
 
-if node['NTLM_Harden'] == true
-  registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0' do
-    values [{ name: 'NTLMMinServerSec', type: :dword, data: 537_395_200 },
-            { name: 'allownullsessionfallback', type: :dword, data: 0 },
-            { name: 'RestrictReceivingNTLMTraffic', type: :dword, data: 2 },
-            { name: 'RestrictSendingNTLMTraffic', type: :dword, data: 2 },
-            { name: 'NTLMMinClientSec', type: :dword, data: 537_395_200 },
-            { name: 'AuditReceivingNTLMTraffic', type: :dword, data: 2 }]
-    action :create
-  end
-  # Setting this on breaks test-kitchen - Federal Information Processing Standards.
-  registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy' do
-    values [{
-      name: 'Enabled',
-      type: :dword,
-      data: 0
-    }]
-    action :create
-  end
+# Setting this on breaks test-kitchen - Federal Information Processing Standards.
+registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy' do
+  values [{
+    name: 'Enabled',
+    type: :dword,
+    data: 0
+  }]
+  action :create
+end
+
+# RDP Encryption
+registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' do
+  values [{
+    name: 'MinEncryptionLevel',
+    type: :dword,
+    data: 3
+  }]
+  action :create
 end
 
 # Netlogon Parameters
@@ -115,7 +134,6 @@ registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Polic
           { name: 'NoConnectedUser', type: :dword, data: 1 },
           { name: 'PromptOnSecureDesktop', type: :dword, data: 1 },
           { name: 'EnableVirtualization', type: :dword, data: 1 },
-          { name: 'LocalAccountTokenFilterPolicy', type: :dword, data: 0 },
           { name: 'EnableUIADesktopToggle', type: :dword, data: 0 },
           { name: 'ConsentPromptBehaviorAdmin', type: :dword, data: 2 },
           { name: 'EnableSecureUIAPaths', type: :dword, data: 1 },
@@ -127,8 +145,8 @@ registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Polic
           { name: 'EnableInstallerDetection', type: :dword, data: 1 },
           { name: 'DisableCAD', type: :dword, data: 0 },
           { name: 'ShutdownWithoutLogon', type: :dword, data: 0 },
-          { name: 'legalnoticecaption', type: :string, data: 'Company Logon Warning' },
-          { name: 'legalnoticetext', type: :string, data: 'Warning text goes here...' }]
+          { name: 'legalnoticecaption', type: :string, data: 'Legal caption here' },
+          { name: 'legalnoticetext', type: :string, data: 'Legal text and harsh warnings etc here.....' }]
   action :create
 end
 
@@ -188,7 +206,7 @@ registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manage
   action :create
 end
 
-# EMET Parameters
+# EMET Application Parameters
 registry_key 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\EMET\Defaults' do
   values [{ name: 'IE', type: :string, data: '*\Internet Explorer\iexplore.exe' },
           { name: '7z', type: :string, data: '*\7-Zip\7z.exe -EAF' },
@@ -450,17 +468,6 @@ registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Polic
   action :create
 end
 
-# Encryption of RDP
-registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' do
-  values [{
-    name: 'MinEncryptionLevel',
-    type: :dword,
-    data: 3
-  }]
-  action :create
-  recursive true
-end
-
 # Index of encrypted files
 registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search' do
   values [{
@@ -503,17 +510,49 @@ registry_key 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\DriverSearc
   recursive true
 end
 
+# Enable WinRM
+registry_key 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WinRM\Service' do
+  values [
+    { name: 'AllowAutoConfig', type: :dword, data: 1 },
+    { name: 'IPv4Filter', type: :string, data: '*' }]
+  action :create
+end
+
+# Powershell ScriptBlock Logging
+registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging' do
+  values [{
+    name: 'EnableScriptBlockLogging',
+    type: :dword,
+    data: 0
+  }]
+  action :create
+  recursive true
+end
+
+# Powershell Transcription
+registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription' do
+  values [{
+    name: 'EnableTranscripting',
+    type: :dword,
+    data: 0
+  }]
+  action :create
+  recursive true
+end
+
+# Force Windows Update
+
 directory 'c:/temp' do
   action :create
 end
 
 # Local Security Policy
-cookbook_file 'c:/temp/localComputer.inf' do
+cookbook_file 'c:/temp/CIS_2012r2_L1_localComputer.inf' do
   action :create
 end
 
 # Reg Files for save applications
-cookbook_file 'c:/temp/audit_settings.csv' do
+cookbook_file 'c:/temp/CIS_2012r2_L1_audit_settings.csv' do
   action :create
 end
 
@@ -521,12 +560,12 @@ end
 powershell_script 'import' do
   cwd 'c:/temp'
   code <<-EOH
-    secedit /import /db secedit.sdb /cfg localComputer.inf
+    secedit /import /db secedit.sdb /cfg CIS_2012r2_L1_localComputer.inf
     secedit /configure /db secedit.sdb
-    auditpol /restore /File:audit_settings.csv
+    auditpol /restore /File:CIS_2012r2_L1_audit_settings.csv
     gpupdate /force
-    del "localComputer.inf" -force -ErrorAction SilentlyContinue
+    del "CIS_2012r2_L1_localComputer.inf" -force -ErrorAction SilentlyContinue
     del "secedit.sdb" -force -ErrorAction SilentlyContinue
-    del "audit_settings.csv" -force -ErrorAction SilentlyContinue
+    del "CIS_2012r2_L1_audit_settings.csv" -force -ErrorAction SilentlyContinue
     EOH
 end

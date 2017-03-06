@@ -1,7 +1,9 @@
-# # encoding: utf-8
+# encoding: utf-8
 
-# Inspec test for recipe
-
+# Inspec test for CIS_2012r2_L1
+#
+# Copyright (c) 2017 Matt Tunny, All Rights Reserved.
+#
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
@@ -18,7 +20,7 @@ end
 describe registry_key('HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa') do
   its('FullPrivilegeAuditing') { should eq [01] }
   its('AuditBaseObjects') { should eq 1 }
-  its('SCENoApplyLegacyAuditPolicy') { should eq 1 }
+  its('scenoapplylegacyauditpolicy') { should eq 1 }
   its('DisableDomainCreds') { should eq 1 }
   its('LimitBlankPasswordUse') { should eq 1 }
   its('CrashOnAuditFail') { should eq 0 }
@@ -88,7 +90,7 @@ describe registry_key('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVers
   its('EnableVirtualization') { should eq 1 }
   its('EnableUIADesktopToggle') { should eq 0 }
   its('ConsentPromptBehaviorAdmin') { should eq 2 }
-  its('LocalAccountTokenFilterPolicy') { should eq 0 }
+  # its('LocalAccountTokenFilterPolicy') { should eq 0 } Removed due to breaking Test-Kitchen
   its('EnableSecureUIAPaths') { should eq 1 }
   its('FilterAdministratorToken') { should eq 1 }
   its('MaxDevicePasswordFailedAttempts') { should eq 10 }
@@ -98,9 +100,9 @@ describe registry_key('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVers
   its('EnableInstallerDetection') { should eq 1 }
   its('DisableCAD') { should eq 0 }
   its('ShutdownWithoutLogon') { should eq 0 }
-  its('legalnoticecaption') { should eq 'Company Logon Warning' }
+  its('legalnoticecaption') { should eq 'Legal caption here' }
   its('legalnoticetext') do
-    should eq 'Warning text goes here...'
+    should eq 'Legal text and harsh warnings etc here.....'
   end
 end
 
@@ -337,10 +339,26 @@ describe registry_key('HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Dr
   its('DontSearchWindowsUpdate') { should eq 1 }
 end
 
+# PowerShell Settings
+describe registry_key('HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging') do
+  its('EnableScriptBlockLogging') { should eq 0 }
+end
+describe registry_key('HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription') do
+  its('EnableTranscripting') { should eq 0 }
+end
+
 # Local Policy Script
 script = <<-EOH
 secedit /export /cfg c:\\temp\\tempexport.inf /quiet
 Get-content C:\\temp\\tempexport.inf | findstr /B `
+/C:"MinimumPasswordAge = 1" `
+/C:"MaximumPasswordAge = 42" `
+/C:"MinimumPasswordLength = 14" `
+/C:"PasswordComplexity = 1" `
+/C:"PasswordHistorySize = 24" `
+/C:"LockoutBadCount = 10" `
+/C:"ResetLockoutCount = 15" `
+/C:"LockoutDuration = 15" `
 /C:"SeNetworkLogonRight = *S-1-5-11,*S-1-5-32-544" `
 /C:"SeServiceLogonRight = *S-1-5-80-0" `
 /C:"SeInteractiveLogonRight = *S-1-5-32-544" `
@@ -361,7 +379,15 @@ EOH
 # Local Policy Tester
 describe powershell(script) do
   its('stdout') do
-    should eq "SeNetworkLogonRight = *S-1-5-11,*S-1-5-32-544\r
+    should eq "MinimumPasswordAge = 1\r
+MaximumPasswordAge = 42\r
+MinimumPasswordLength = 14\r
+PasswordComplexity = 1\r
+PasswordHistorySize = 24\r
+LockoutBadCount = 10\r
+ResetLockoutCount = 15\r
+LockoutDuration = 15\r
+SeNetworkLogonRight = *S-1-5-11,*S-1-5-32-544\r
 SeServiceLogonRight = *S-1-5-80-0\r
 SeInteractiveLogonRight = *S-1-5-32-544\r
 SeSecurityPrivilege = *S-1-5-32-544\r

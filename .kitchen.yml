@@ -42,3 +42,10 @@ suites:
     verifier:
       inspec_tests:
         - https://github.com/dev-sec/windows-hardening-benchmark
+  
+  - name: CIS_2012r2_L1
+    run_list:
+      - recipe[base-win2012-hardening::CIS_2012r2_L1]
+    verifier:
+      inspec_tests:
+        - test/integration/default 
