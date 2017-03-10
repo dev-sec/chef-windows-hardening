@@ -1,44 +1,23 @@
 ---
 driver:
-  name: ec2
-  aws_ssh_key_id: your_key
-  region: eu-west-1
-  availability_zone: b
-  require_chef_omnibus: true
-  instance_type: m1.small
-  associate_public_ip: true
-  interface: dns
-  security_group_ids: ["your SG ID"]
-  shared_credentials_profile: default
+  name: vagrant
 
-verifier: 
+verifier:
   name: inspec
 
 provisioner:
   name: chef_solo
-  client_rb:
-    audit_mode: :enabled
-
-transport:
-  ssh_key: C:/ssh/key/path
-  connection_timeout: 10
-  connection_retries: 5
 
 platforms:
-  - name: windows-2012r2
-    driver:
-      image_id: win2012_ami
-    tags: {
-      Name: "my-kitchen win2012 node",
-        created-by: "my-test-kitchen-win2012"
-    }
-         
+  - name: windows-2012R2
+    driver_config:
+      box: mwrock/Windows2012R2
+
 suites:
   - name: default
     run_list:
-#      - recipe[base-win2012-hardening::enable_winrm_access]
-      - recipe[base-win2012-hardening::default]
-    attributes:
+      - recipe[windows-hardening::enable_winrm_access]
+      - recipe[windows-hardening::default]
     verifier:
       inspec_tests:
-        - https://github.com/dev-sec/windows-hardening-benchmark
+        - https://github.com/dev-sec/windows-baseline
