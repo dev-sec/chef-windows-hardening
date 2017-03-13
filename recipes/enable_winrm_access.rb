@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: base-win2012-hardening
+# Cookbook Name:: windows-hardening
 # Recipe:: enable_winrm_access
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.

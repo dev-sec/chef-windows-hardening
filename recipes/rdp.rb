@@ -1,10 +1,11 @@
 #
-# Cookbook Name:: base-win2012-hardening
+# Cookbook Name:: windows-hardening
 # Recipe:: rdp
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
-# start of fix for windows-rdp-100 - Windows Remote Desktop Configured to Always Prompt for Password
+# Windows Remote Desktop Configured to Always Prompt for Password
+# windows-baseline: windows-rdp-100
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services' do
   values [{
     name: 'fPromptForPassword',
@@ -13,9 +14,9 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services
   }]
   action :create
 end
-# end of fix for windows-rdp-100 - Windows Remote Desktop Configured to Always Prompt for Password
 
-# start of fix for windows-rdp-101 - Strong Encryption for Windows Remote Desktop Required
+# Strong Encryption for Windows Remote Desktop Required
+# windows-baseline: windows-rdp-101
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services' do
   values [{
     name: 'MinEncryptionLevel',
@@ -24,4 +25,3 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services
   }]
   action :create
 end
-# end of fix for windows-rdp-101 - Strong Encryption for Windows Remote Desktop Required
