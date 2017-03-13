@@ -16,8 +16,8 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[windows-hardening::enable_winrm_access]
       - recipe[windows-hardening::default]
-    verifier:
-      inspec_tests:
-        - https://github.com/dev-sec/windows-baseline
+    attributes:
+      security_policy:
+        rights:
+          SeNetworkLogonRight: '*S-1-1-0, *S-1-5-32-544, *S-1-5-32-545, *S-1-5-32-551'
