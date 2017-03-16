@@ -1,10 +1,11 @@
 #
-# Cookbook Name:: base-win2012-hardening
+# Cookbook Name:: windows-hardening
 # Recipe:: ie
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
-# start of fix for windows-ie-101 - IE 64-bit tab
+# IE 64-bit tab
+# windows-baseline: windows-ie-101
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Internet Explorer\\Main' do
   values [{
     name: 'Isolation64Bit',
@@ -14,9 +15,9 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Internet Explorer\\Main' do
   recursive true
   action :create
 end
-# end of fix for windows-ie-101 - IE 64-bit tab
 
-# start of fix for windows-ie-102 - Run antimalware programs against ActiveX controls
+# Run antimalware programs against ActiveX controls
+# windows-baseline: windows-ie-102
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones\\3' do
   values [{
     name: '270C',
@@ -26,4 +27,3 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Inte
   recursive true
   action :create
 end
-# end of fix for windows-ie-102 - Run antimalware programs against ActiveX controls
