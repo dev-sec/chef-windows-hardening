@@ -5,3 +5,4 @@ Berks*
 Berks*.kitchen/
 .kitchen.local.yml
 .kitchen/*
+.DS_Store
