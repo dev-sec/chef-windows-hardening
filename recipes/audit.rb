@@ -1,10 +1,11 @@
 #
-# Cookbook Name:: base-win2012-hardening
+# Cookbook Name:: windows-hardening
 # Recipe:: audit-logging
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
-# start of fix for windows-audit-100 - Configure System Event Log (Application)
+# Configure System Event Log (Application)
+# windows-baseline: windows-audit-100
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Application' do
   values [{
     name: 'MaxSize',
@@ -14,9 +15,9 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Applicatio
   recursive true
   action :create
 end
-# end of fix for windows-base-100 - Configure System Event Log (Application)
 
-# start of fix for windows-audit-101 - Configure System Event Log (Security)
+# Configure System Event Log (Security)
+# windows-baseline: windows-audit-101
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Security' do
   values [{
     name: 'MaxSize',
@@ -26,9 +27,9 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Security' 
   recursive true
   action :create
 end
-# end of fix for windows-base-101 - Configure System Event Log (Security)
 
-# start of fix for windows-audit-102 - Configure System Event Log (Setup)
+# Configure System Event Log (Setup)
+# windows-baseline: windows-audit-102
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Setup' do
   values [{
     name: 'MaxSize',
@@ -38,9 +39,9 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Setup' do
   recursive true
   action :create
 end
-# end of fix for windows-base-102 - Configure System Event Log (Setup)
 
-# start of fix for windows-audit-103 - Configure System Event Log (System)
+# Configure System Event Log (System)
+# windows-baseline: windows-audit-103
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\System' do
   values [{
     name: 'MaxSize',
@@ -50,9 +51,9 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\System' do
   recursive true
   action :create
 end
-# end of fix for windows-base-103 - Configure System Event Log (System)
 
-# start of fix for windows-audit-203 - Account Logon Audit Log
+# Account Logon Audit Log
+# windows-baseline: windows-audit-203
 execute 'Account Logon Audit Log' do
   command 'AuditPol /Set /Category:"Account Logon" /Failure:Enable /Success:Enable'
   action :run
@@ -63,9 +64,9 @@ end
 file 'C:\accountLogonAudit.lock' do
   action :nothing
 end
-# end of fix for windows-audit-203 - Account Logon Audit Log
 
-# start of fix for windows-audit-204 - Audit Application Group Management
+# Audit Application Group Management
+# windows-baseline: windows-audit-204
 execute 'Audit Application Group Management' do
   command 'AuditPol /Set /SubCategory:"Application Group Management" /Failure:Enable /Success:Enable'
   action :run
@@ -76,9 +77,9 @@ end
 file 'C:\appGroupMngmtAudit.lock' do
   action :nothing
 end
-# end of fix for windows-audit-204 - Audit Application Group Management
 
-# start of fix for windows-audit-206 - Audit Distributed Group Management
+# Audit Distributed Group Management
+# windows-baseline: windows-audit-206
 execute 'Audit Distributed Group Management' do
   command 'AuditPol /Set /SubCategory:"Distribution Group Management" /Failure:Enable /Success:Enable'
   action :run
@@ -89,4 +90,3 @@ end
 file 'C:\distGroupMngmtAudit.lock' do
   action :nothing
 end
-# end of fix for windows-audit-206 - Audit Distributed Group Management

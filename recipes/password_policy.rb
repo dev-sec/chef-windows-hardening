@@ -1,10 +1,11 @@
 #
-# Cookbook Name:: base-win2012-hardening
+# Cookbook Name:: windows-hardening
 # Recipe:: password
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
-# start of fix for cis-enforce-password-history-1.1.1 - Set Enforce password history to 24 or more passwords
+# Set Enforce password history to 24 or more passwords
+# cis: enforce-password-history 1.1.1
 execute 'Password history' do
   command 'net accounts /uniquepw:24'
   action :run
@@ -15,9 +16,9 @@ end
 file 'C:\passHistory.lock' do
   action :create
 end
-# end of fix for cis-enforce-password-history-1.1.1 - Set Enforce password history to 24 or more passwords
 
-# start of fix for cis-minimum-password-age-1.1.3 - Set Minimum password age to 1 or more days
+# Set Minimum password age to 1 or more days
+# cis: minimum-password-age 1.1.3
 execute 'Minimum password age' do
   command 'net accounts /minpwage:1'
   action :run
@@ -28,9 +29,9 @@ end
 file 'C:\minPassAge.lock' do
   action :nothing
 end
-# end of fix for cis-minimum-password-age-1.1.3 - Set Minimum password age to 1 or more days
 
-# start of fix for cis-minimum-password-length-1.1.4 - Set Minimum password length to 14 or more characters
+# Set Minimum password length to 14 or more characters
+# cis: minimum-password-length 1.1.4
 execute 'Minimum password length' do
   command 'net accounts /minpwlen:14'
   action :run
@@ -41,4 +42,3 @@ end
 file 'C:\minPassLength.lock' do
   action :nothing
 end
-# end of fix for cis-minimum-password-length-1.1.4 - Set Minimum password length to 14 or more characters
