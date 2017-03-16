@@ -1,4 +1,4 @@
-name 'base-win2012-hardening'
+name 'windows-hardening'
 maintainer 'Joe Gardiner'
 maintainer_email 'joe@chef.io'
 license 'all_rights'

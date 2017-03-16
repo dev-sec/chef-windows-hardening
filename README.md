@@ -28,6 +28,7 @@ gem install kitchen-inspec
 * Simon Fisher [simfish85](https://github.com/simfish85)
 * Alex Pop [alexpop](https://github.com/alexpop)
 * Yvo Van Doorn [yvovandoorn](https://github.com/yvovandoorn)
+* Matthew Tunny [MattTunny](https://github.com/matttunny)
 
 
 ## Contributing
