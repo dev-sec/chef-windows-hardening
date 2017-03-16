@@ -22,42 +22,7 @@ if node['NTLM_Harden'] == true
   end
 end
 
-# Winlogon Settings
-registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon' do
-  values [{ name: 'PasswordExpiryWarning', type: :dword, data: 14 },
-          { name: 'ScreenSaverGracePeriod', type: :string, data: 5 },
-          { name: 'AllocateDASD', type: :string, data: 0 },
-          { name: 'ScRemoveOption', type: :string, data: 1 },
-          { name: 'ForceUnlockLogon', type: :string, data: 0 },
-          { name: 'AutoAdminLogon', type: :string, data: 0 }, # This will stop auto login for kitchen tests
-          { name: 'CachedLogonsCount', type: :string, data: 4 }]
-  action :create
-end
 
-# LSA settings
-registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa' do
-  values [ # { name: 'fullprivilegeauditing', type: :binary, data: 01 }, Removed due to 31 value being passed through chef, added powershell script below
-    { name: 'AuditBaseObjects', type: :dword, data: 1 },
-    { name: 'scenoapplylegacyauditpolicy', type: :dword, data: 1 },
-    { name: 'DisableDomainCreds', type: :dword, data: 1 },
-    { name: 'LimitBlankPasswordUse', type: :dword, data: 1 },
-    { name: 'CrashOnAuditFail', type: :dword, data: 0 },
-    { name: 'RestrictAnonymousSAM', type: :dword, data: 1 },
-    { name: 'RestrictAnonymous', type: :dword, data: 0 },
-    { name: 'SubmitControl', type: :dword, data: 0 },
-    { name: 'ForceGuest', type: :dword, data: 0 },
-    { name: 'EveryoneIncludesAnonymous', type: :dword, data: 0 },
-    { name: 'NoLMHash', type: :dword, data: 1 },
-    { name: 'LmCompatibilityLevel', type: :dword, data: 5 }]
-  action :create
-end
-
-# LSA Setting can't be added via registry_key due to hex key bug'
-powershell_script 'fullprivilegeauditing' do
-  code <<-EOH
-Set-ItemProperty -Path "HKLM:\\System\\CurrentControlSet\\Control\\Lsa" -Name fullprivilegeauditing -Value 01
-EOH
-end
 
 # This setting prevents online identities from being used by PKU2U, which is a peer-to-peer authentication protocol. Authentication will be centrally managed with Windows user accounts.
 registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\pku2u' do
@@ -69,14 +34,6 @@ registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\pku2u' do
   action :create
 end
 
-# NTML Hardening
-registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0' do
-  values [{ name: 'NTLMMinServerSec', type: :dword, data: 537_395_200 },
-          { name: 'allownullsessionfallback', type: :dword, data: 0 },
-          { name: 'NTLMMinClientSec', type: :dword, data: 537_395_200 },
-          { name: 'AuditReceivingNTLMTraffic', type: :dword, data: 2 }]
-  action :create
-end
 
 # Setting this on breaks test-kitchen - Federal Information Processing Standards.
 registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy' do
@@ -88,29 +45,6 @@ registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\FIPSAlgori
   action :create
 end
 
-# RDP Encryption
-registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services' do
-  values [{
-    name: 'MinEncryptionLevel',
-    type: :dword,
-    data: 3
-  }]
-  action :create
-end
-
-# Netlogon Parameters
-registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Netlogon\Parameters' do
-  values [{ name: 'MaximumPasswordAge', type: :dword, data: 30 },
-          { name: 'DisablePasswordChange', type: :dword, data: 0 },
-          { name: 'RefusePasswordChange', type: :dword, data: 0 },
-          { name: 'SealSecureChannel', type: :dword, data: 1 },
-          { name: 'RequireSignOrSeal', type: :dword, data: 1 },
-          { name: 'SignSecureChannel', type: :dword, data: 1 },
-          { name: 'RequireStrongKey', type: :dword, data: 1 },
-          { name: 'RestrictNTLMInDomain', type: :dword, data: 7 },
-          { name: 'AuditNTLMInDomain', type: :dword, data: 7 }]
-  action :create
-end
 
 # TCPIP 4 Parameters
 registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip\Parameters' do
