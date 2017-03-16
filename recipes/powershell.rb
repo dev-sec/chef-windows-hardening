@@ -2,7 +2,6 @@
 # Cookbook Name:: windows-hardening
 # Recipe:: powershell
 #
-# Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
 # Enabling PowerShell script block logging will record detailed information from the processing of PowerShell commands and scripts
 # Powershell ScriptBlock Logging
