@@ -4,6 +4,8 @@
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
+return unless node['platform_family'] == 'windows'
+
 # Configure System Event Log (Application)
 # windows-baseline: windows-audit-100
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Application' do
