@@ -4,6 +4,8 @@
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
+return unless node['platform_family'] == 'windows'
+
 # All Shares are Configured to Prevent Anonymous Access
 # windows-baseline: windows-base-103
 registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters' do
