@@ -7,6 +7,7 @@ This cookbook provides recipes for ensuring that a Windows 2012 R2 system is com
 - Windows Server 2012
 - Windows Server 2012 R2
 - Windows Server 2016
+- Windows Server 2016 Nano Server
 
 ## Coding guidelines
 
