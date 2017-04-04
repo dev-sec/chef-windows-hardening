@@ -80,6 +80,19 @@ file 'C:\appGroupMngmtAudit.lock' do
   action :nothing
 end
 
+# Audit Computer Account Management
+# windows-baseline: windows-audit-205
+execute 'Audit Computer Account Management' do
+  command 'AuditPol /Set /SubCategory:"Computer Account Management" /Failure:Enable /Success:Enable'
+  action :run
+  not_if { ::File.exist?('C:\appAccountMngmtAudit.lock') }
+  notifies :create, 'file[C:\appAccountMngmtAudit.lock]', :immediately
+end
+
+file 'C:\appAccountMngmtAudit.lock' do
+  action :nothing
+end
+
 # Audit Distributed Group Management
 # windows-baseline: windows-audit-206
 execute 'Audit Distributed Group Management' do
