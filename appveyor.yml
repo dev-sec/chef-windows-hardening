@@ -1,8 +1,8 @@
 version: "master-{build}"
 
-os: Windows Server 2012 R2
-platform:
-  - x64
+image:
+- Visual Studio 2017 # Windows 2016
+- Visual Studio 2015 # Windows 2012R2
 
 environment:
   winrm_user: test_user

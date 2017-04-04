@@ -2,8 +2,21 @@
 
 This cookbook provides recipes for ensuring that a Windows 2012 R2 system is compliant with the [DevSec Windows Baseline](https://github.com/dev-sec/windows-baseline).
 
+### Platforms
+
+- Windows Server 2012
+- Windows Server 2012 R2
+- Windows Server 2016
+
 ## Coding guidelines
-Use Chef resources wherever possible. Lock files have been used for `secedit.exe` and `auditpol` commands. The `registry_key` resource has been used extensively.
+
+Use Chef resources wherever possible. Some Chef resources we use to manage Windows:
+
+- [registry_key](https://docs.chef.io/windows.html#registry-key)
+- [powershell_script](https://docs.chef.io/windows.html#powershell-script)
+- [security_policy](https://github.com/grdnrio/windows-security-policy)
+
+If no Chef resource is available, we prefer to use Powershell or Powershell DSC.
 
 ## Testing the cookbook
 
@@ -49,6 +62,7 @@ See [contributor guideline](CONTRIBUTING.md).
 ## License and Author
 
 * Author:: Joe Gardiner <joe@grdnr.io> <joe@chef.io>
+* Author:: Christoph Hartmann <chris@lollyrock.com> <chris@lollyrock.com>
 * Author:: Chef Software Ltd
 
 Licensed under the Apache License, Version 2.0 (the "License");
