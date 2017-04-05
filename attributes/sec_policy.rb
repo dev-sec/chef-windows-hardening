@@ -5,6 +5,7 @@ default['security_policy']['database']['name'] = 'hardening.sdb'
 
 # System access settings
 # Nil value means nothing will be written to the security policy template.
+default['security_policy']['access']['PasswordComplexity'] = 1
 default['security_policy']['access']['LockoutBadCount'] = 3
 default['security_policy']['access']['ResetLockoutCount'] = 15
 default['security_policy']['access']['LockoutDuration'] = 15
