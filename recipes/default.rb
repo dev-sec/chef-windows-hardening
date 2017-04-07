@@ -13,4 +13,6 @@ include_recipe 'windows-hardening::audit'
 include_recipe 'windows-hardening::ie'
 include_recipe 'windows-hardening::rdp'
 include_recipe 'windows-hardening::access'
+include_recipe 'windows-hardening::privacy'
 include_recipe 'windows-hardening::powershell'
+
