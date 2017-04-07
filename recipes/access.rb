@@ -4,6 +4,19 @@
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
+return unless node['platform_family'] == 'windows'
+
+# Anonymous Access to Windows Shares and Named Pipes is Disallowed
+# windows-baseline: windows-base-102
+registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters' do
+  values [{
+    name: 'RestrictNullSessAccess',
+    type: :dword,
+    data: 1
+  }]
+  action :create_if_missing
+end
+
 # All Shares are Configured to Prevent Anonymous Access
 # windows-baseline: windows-base-103
 registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters' do

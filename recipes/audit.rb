@@ -4,6 +4,8 @@
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
+return unless node['platform_family'] == 'windows'
+
 # Configure System Event Log (Application)
 # windows-baseline: windows-audit-100
 registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Application' do
@@ -75,6 +77,19 @@ execute 'Audit Application Group Management' do
 end
 
 file 'C:\appGroupMngmtAudit.lock' do
+  action :nothing
+end
+
+# Audit Computer Account Management
+# windows-baseline: windows-audit-205
+execute 'Audit Computer Account Management' do
+  command 'AuditPol /Set /SubCategory:"Computer Account Management" /Failure:Enable /Success:Enable'
+  action :run
+  not_if { ::File.exist?('C:\appAccountMngmtAudit.lock') }
+  notifies :create, 'file[C:\appAccountMngmtAudit.lock]', :immediately
+end
+
+file 'C:\appAccountMngmtAudit.lock' do
   action :nothing
 end
 

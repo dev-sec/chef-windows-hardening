@@ -6,18 +6,27 @@ verifier:
   name: inspec
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
 
 platforms:
   - name: windows-2012R2
     driver_config:
       box: mwrock/Windows2012R2
+  - name: windows-2016
+    driver_config:
+      box: mwrock/Windows2016
+  - name: windows-2016-nano
+    driver_config:
+      box: mwrock/WindowsNano
+    provisioner:
+      install_msi_url: https://s3-us-west-2.amazonaws.com/nano-chef-client/chef-12.14.60.appx
 
 suites:
   - name: default
     run_list:
-      - recipe[windows-hardening::enable_winrm_access]
       - recipe[windows-hardening::default]
-    verifier:
-      inspec_tests:
-        - https://github.com/dev-sec/windows-baseline
+    attributes:
+      security_policy:
+        rights:
+          SeNetworkLogonRight: '*S-1-1-0, *S-1-5-32-544, *S-1-5-32-545, *S-1-5-32-551'
+          SeRemoteInteractiveLogonRight: '*S-1-1-0, *S-1-5-32-544, *S-1-5-32-545, *S-1-5-32-551'

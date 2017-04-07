@@ -4,6 +4,8 @@
 #
 # Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
 
+return unless node['platform_family'] == 'windows'
+
 # Set Enforce password history to 24 or more passwords
 # cis: enforce-password-history 1.1.1
 execute 'Password history' do
