@@ -30,7 +30,8 @@ install:
   - ps: ruby --version
   - ps: gem --version
   - ps: gem install bundler --quiet --no-ri --no-rdoc
-  - ps: Invoke-WebRequest -Uri http://curl.haxx.se/ca/cacert.pem -OutFile c:\projects\windows-hardening\certs.pem
+  - ps: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12'
+  - ps: Invoke-WebRequest -Uri https://curl.haxx.se/ca/cacert.pem -OutFile c:\projects\windows-hardening\certs.pem
   - ps: bundler --version
 
 build_script:
