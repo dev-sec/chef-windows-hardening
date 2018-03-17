@@ -9,6 +9,16 @@ This cookbook provides recipes for ensuring that a Windows 2012 R2 system is com
 - Windows Server 2016
 - Windows Server 2016 Nano Server
 
+### Roadmap
+
+This cookbook aims to be the go-to-resource to implement hardening for Windows environments. In order to achieve that plan to cover the requirements of
+
+- CIS Windows 2012R2
+- CIS Windows 2016
+- STIG Windows 2012R2
+
+Any contributions to achieve that are welcome!
+
 ## Coding guidelines
 
 Use Chef resources wherever possible. Some Chef resources we use to manage Windows:
