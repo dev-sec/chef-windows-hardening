@@ -15,4 +15,3 @@ include_recipe 'windows-hardening::rdp'
 include_recipe 'windows-hardening::access'
 include_recipe 'windows-hardening::privacy'
 include_recipe 'windows-hardening::powershell'
-

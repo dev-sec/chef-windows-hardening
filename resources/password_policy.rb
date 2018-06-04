@@ -5,14 +5,14 @@ property :policy_command, String, required: true
 property :value, Integer, required: true
 
 action :set do
-  execute policy_name do
-    command "net accounts /#{policy_command}:#{value.to_s}"
+  execute new_resource.policy_name do
+    command "net accounts /#{new_resource.policy_command}:#{new_resource.value}"
     action :run
-    not_if { ::File.exist?("C:\\#{policy_name}.lock") }
-    notifies :create, "file[C:\\#{policy_name}.lock]", :immediately
+    not_if { ::File.exist?("C:\\#{new_resource.policy_name}.lock") }
+    notifies :create, "file[C:\\#{new_resource.policy_name}.lock]", :immediately
   end
 
-  file "C:\\#{policy_name}.lock" do
+  file "C:\\#{new_resource.policy_name}.lock" do
     action :create
   end
 end
