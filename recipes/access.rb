@@ -62,12 +62,12 @@ registry_key 'HKLM\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0' do
 end
 
 if node['windows_hardening']['smbv1']['disable'] == true
-    registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters' do
-      values [{
-        name: 'SMB1',
-        type: :dword,
-        data: 0
-      }]
-      action :create_if_missing
-    end
+  registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters' do
+    values [{
+      name: 'SMB1',
+      type: :dword,
+      data: 0
+    }]
+    action :create_if_missing
+  end
 end

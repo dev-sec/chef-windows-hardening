@@ -1,5 +1,5 @@
 # encoding: utf-8
-#
+
 # Cookbook Name:: windows-hardening
 # Attributes:: default
 

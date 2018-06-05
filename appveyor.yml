@@ -12,7 +12,7 @@ environment:
   SSL_CERT_FILE: c:\projects\windows-hardening\certs.pem
 
   matrix:
-    - ruby_version: "22"
+    - ruby_version: "24"
 
 clone_folder: c:\projects\windows-hardening
 clone_depth: 1

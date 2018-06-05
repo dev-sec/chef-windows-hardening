@@ -2,3 +2,5 @@ EndOfLine:
   Enabled: false
 LineLength:
   Enabled: false
+Style/Encoding:
+  Enabled: false
