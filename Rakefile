@@ -10,15 +10,15 @@ require 'chef/cookbook/metadata'
 
 # Rubocop before rspec so we don't lint vendored cookbooks
 desc 'Run all tests except Kitchen (default task)'
-task default: [:lint, :spec]
+task default: %I[lint spec]
 
 # Lint the cookbook
 desc 'Run all linters: rubocop and foodcritic'
-task lint: [:rubocop, :foodcritic]
+task lint: %I[rubocop foodcritic]
 
 # Run the whole shebang
 desc 'Run all tests'
-task test: [:lint, :integration, :spec]
+task test: %I[lint integration spec]
 
 # RSpec
 desc 'Run chefspec tests'
