@@ -12,7 +12,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Applicatio
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 1
+    data: 4_194_240
   }]
   recursive true
   action :create
@@ -24,7 +24,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Security' 
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 1
+    data: 4_194_240
   }]
   recursive true
   action :create
@@ -36,7 +36,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Setup' do
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 1
+    data: 4_194_240
   }]
   recursive true
   action :create
@@ -48,7 +48,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\System' do
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 1
+    data: 4_194_240
   }]
   recursive true
   action :create
