@@ -12,7 +12,7 @@ default['security_policy']['access']['LockoutDuration'] = 15
 
 # Security policy rights / privileges settings.
 default['security_policy']['rights']['SeRemoteInteractiveLogonRight']       = '*S-1-5-32-544'
-default['security_policy']['rights']['SeTcbPrivilege']                      = '*S-1-0-0'
+default['security_policy']['rights']['SeTcbPrivilege']                      = ''
 default['security_policy']['rights']['SeMachineAccountPrivilege']           = '*S-1-5-32-544'
-default['security_policy']['rights']['SeTrustedCredManAccessPrivilege']     = '*S-1-0-0'
-default['security_policy']['rights']['SeNetworkLogonRight']                 = '*S-1-0-0'
+default['security_policy']['rights']['SeTrustedCredManAccessPrivilege']     = ''
+default['security_policy']['rights']['SeNetworkLogonRight']                 = ''
