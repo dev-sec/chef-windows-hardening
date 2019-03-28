@@ -26,6 +26,11 @@ suites:
     run_list:
       - recipe[windows-hardening::default]
     attributes:
+      account_status:
+        names:
+          - 'Guest'
+      rename_account:
+        admin_account: false
       security_policy:
         rights:
           SeNetworkLogonRight: '*S-1-1-0, *S-1-5-32-544, *S-1-5-32-545, *S-1-5-32-551'
