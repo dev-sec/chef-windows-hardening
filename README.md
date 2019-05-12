@@ -74,7 +74,7 @@ See [contributor guideline](CONTRIBUTING.md).
 
 * Author:: Joe Gardiner <joe@grdnr.io> <joe@chef.io>
 * Author:: Christoph Hartmann <chris@lollyrock.com> <chris@lollyrock.com>
-* Author:: Chef Software Ltd
+* Author:: Chef Software Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
