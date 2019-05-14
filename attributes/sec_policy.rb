@@ -142,22 +142,22 @@ default['security_policy']['rights']['SeDenyNetworkLogonRight'] = '*S-1-5-32-546
 # Ensure \'Deny log on as a batch job\' to include \'Guests\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.18'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.2.22'
-default['security_policy']['rights']['SeDenyServiceLogonRight'] = '*S-1-5-32-546'
+default['security_policy']['rights']['SeDenyBatchLogonRight'] = '*S-1-5-32-546'
 
 # Ensure \'Deny log on as a service\' to include \'Guests\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.19'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.2.23'
-default['security_policy']['rights']['SeDenyInteractiveLogonRight'] = '*S-1-5-32-546'
+default['security_policy']['rights']['SeDenyServiceLogonRight'] = '*S-1-5-32-546'
 
 # Ensure \'Deny log on locally\' to include \'Guests\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.20'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.2.24'
-default['security_policy']['rights']['SeMachineAccountPrivilege'] = '*S-1-5-32-546'
+default['security_policy']['rights']['SeDenyInteractiveLogonRight'] = '*S-1-5-32-546'
 
 # Configure \'Deny log on through Remote Desktop Services\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.21'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': ['2.2.25', '2.2.26']
-default['security_policy']['rights']['SeMachineAccountPrivilege'] = '*S-1-5-32-546'
+default['security_policy']['rights']['SeDenyRemoteInteractiveLogonRight'] = '*S-1-5-32-546'
 
 # Configure \'Enable computer and user accounts to be trusted for delegation\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.22'
@@ -197,9 +197,7 @@ default['security_policy']['rights']['SeLockMemoryPrivilege'] = ''
 # Ensure \'Log on as a batch job\' is set to \'Administrators\' (DC only)
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.29'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.2.36'
-if ((node['default']['ms_or_dc'] == 'DC') && (node['default']['level_1_or_2'] == 2))
-  default['security_policy']['rights']['SeBatchLogonRight'] = '*S-1-5-32-544, *S-1-5-32-551'
-end
+default['security_policy']['rights']['SeBatchLogonRight'] = '*S-1-5-32-544, *S-1-5-32-551' if node['windows_hardening']['ms_or_dc'] == 'DC' && node['windows_hardening']['level_1_or_2'] == 2
 
 # Configure \'Manage auditing and security log\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.30'
@@ -249,17 +247,15 @@ default['security_policy']['rights']['SeShutdownPrivilege'] = '*S-1-5-32-544'
 # Ensure \'Synchronize directory service data\' is set to \'No One\' (DC only)
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.39'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.2.47'
-if node['default']['ms_or_dc'] == 'DC'
-  default['security_policy']['rights']['SeSyncAgentPrivilege'] = ''
-end
+
+default['security_policy']['rights']['SeSyncAgentPrivilege'] = '' if node['windows_hardening']['ms_or_dc'] == 'DC'
 
 # Ensure \'Take ownership of files or other objects\' is set to \'Administrators\'
 # tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.2.40'
 # tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.2.48'
 default['security_policy']['rights']['SeTakeOwnershipPrivilege'] = '*S-1-5-32-544'
 
-#
-
-
-
-default['security_policy']['rights']['SeMachineAccountPrivilege'] = '*S-1-5-32-544'
+# Ensure \'Network access: Allow anonymous SID/Name translation\' is set to \'Disabled\'
+# tag 'CIS Microsoft Windows Server 2012 R2 Benchmark v2.3.0 - 03-30-2018': '2.3.10.1'
+# tag 'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark v1.1.0 - 10-31-2018': '2.3.10.1'
+default['security_policy']['access']['LSAAnonymousNameLookup'] = 0

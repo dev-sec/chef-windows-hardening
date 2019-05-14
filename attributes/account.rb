@@ -4,7 +4,7 @@
 # Attributes:: account
 
 # define which accounts should be disabled
-default['account_status']['names'] = ['Administrator', 'Guest']
+default['account_status']['names'] = %w[Administrator Guest]
 default['account_status']['active_yes_no'] = 'no'
 
 # define the new account names for Administrator and Guest
