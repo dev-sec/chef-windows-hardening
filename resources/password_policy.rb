@@ -1,4 +1,5 @@
 resource_name :password_policy
+provides :password_policy
 
 property :policy_name, String, name_property: true
 property :policy_command, String, required: true
