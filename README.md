@@ -1,6 +1,6 @@
 # windows-hardening (Chef Cookbook)
 
-This cookbook provides recipes for ensuring that a Windows 2012 R2 system is compliant with the [DevSec Windows Baseline](https://github.com/dev-sec/windows-baseline).
+This cookbook provides recipes for ensuring that a Windows 2012 R2 and 2016 system is compliant with the [DevSec Windows Baseline](https://github.com/dev-sec/windows-baseline). The [DevSec Windows Baseline](https://github.com/dev-sec/windows-baseline) checks the complete CIS documents and also some additions.
 
 ### Platforms
 
@@ -63,15 +63,15 @@ This cookbook is currently in development. It does not cover all requirements to
 * Alex Pop [alexpop](https://github.com/alexpop)
 * Yvo Van Doorn [yvovandoorn](https://github.com/yvovandoorn)
 * Matthew Tunny [MattTunny](https://github.com/matttunny)
-
+* Patrick Muench [arlimus](https://github.com/atomic111)
 
 ## Contributing
 
 See [contributor guideline](CONTRIBUTING.md).
 
-
 ## License and Author
 
+* Author:: Patrick Muench <patrick.muench1111@gmail.com>
 * Author:: Joe Gardiner <joe@grdnr.io> <joe@chef.io>
 * Author:: Christoph Hartmann <chris@lollyrock.com> <chris@lollyrock.com>
 * Author:: Chef Software Ltd
