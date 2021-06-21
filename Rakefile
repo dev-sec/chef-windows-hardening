@@ -1,6 +1,4 @@
 #!/usr/bin/env rake
-# encoding: utf-8
-
 require 'foodcritic'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
@@ -10,15 +8,15 @@ require 'chef/cookbook/metadata'
 
 # Rubocop before rspec so we don't lint vendored cookbooks
 desc 'Run all tests except Kitchen (default task)'
-task default: %I[lint spec]
+task default: %I(lint spec)
 
 # Lint the cookbook
 desc 'Run all linters: rubocop and foodcritic'
-task lint: %I[rubocop foodcritic]
+task lint: %I(rubocop foodcritic)
 
 # Run the whole shebang
 desc 'Run all tests'
-task test: %I[lint integration spec]
+task test: %I(lint integration spec)
 
 # RSpec
 desc 'Run chefspec tests'
