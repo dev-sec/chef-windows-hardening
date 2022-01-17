@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Recipe:: access
 #
-# Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
+# Copyright:: (c) 2016 Joe Gardiner, All Rights Reserved.
 
-return unless node['platform_family'] == 'windows'
+return unless platform_family?('windows')
 
 # Anonymous Access to Windows Shares and Named Pipes is Disallowed
 # windows-baseline: windows-base-102
@@ -12,7 +12,7 @@ registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameter
   values [{
     name: 'RestrictNullSessAccess',
     type: :dword,
-    data: 1
+    data: 1,
   }]
   action :create_if_missing
 end
@@ -23,7 +23,7 @@ registry_key 'HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameter
   values [{
     name: 'NullSessionShares',
     type: :multi_string,
-    data: ['']
+    data: [''],
   }]
   action :create_if_missing
 end
@@ -34,7 +34,7 @@ registry_key 'HKLM\\System\\CurrentControlSet\\Control\\Lsa' do
   values [{
     name: 'LmCompatibilityLevel',
     type: :dword,
-    data: 4
+    data: 4,
   }]
   action :create
 end
@@ -45,7 +45,7 @@ registry_key 'HKLM\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0' do
   values [{
     name: 'NtlmMinClientSec',
     type: :dword,
-    data: 537_395_200
+    data: 537_395_200,
   }]
   action :create
 end
@@ -56,7 +56,7 @@ registry_key 'HKLM\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0' do
   values [{
     name: 'NtlmMinServerSec',
     type: :dword,
-    data: 537_395_200
+    data: 537_395_200,
   }]
   action :create
 end
@@ -66,7 +66,7 @@ if node['windows_hardening']['smbv1']['disable'] == true
     values [{
       name: 'SMB1',
       type: :dword,
-      data: 0
+      data: 0,
     }]
     action :create_if_missing
   end

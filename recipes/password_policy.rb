@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Recipe:: password_policy
 #
-# Copyright (c) 2018 The Authors, All Rights Reserved.
+# Copyright:: (c) 2018 The Authors, All Rights Reserved.
 
-return unless node['platform_family'] == 'windows'
+return unless platform_family?('windows')
 
 # Set Enforce password history to 24 or more passwords
 # cis: enforce-password-history 1.1.1
