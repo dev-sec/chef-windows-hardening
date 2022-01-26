@@ -1,6 +1,4 @@
-# encoding: utf-8
-
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Attributes:: default
 
 # set this value if you want to harden terminal services
