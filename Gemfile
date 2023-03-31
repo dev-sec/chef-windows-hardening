@@ -1,21 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'berkshelf', '~> 5.3'
-gem 'chef', '~> 12.5'
+gem 'berkshelf', '~> 8.0'
+gem 'chef', '~> 18.0'
 
 group :test do
-  gem 'foodcritic', '~> 6.0'
-  gem 'highline', '~> 1.6.0'
-  gem 'rubocop', '~> 0.56.0'
+  gem 'foodcritic', '~> 16.0'
+  gem 'highline', '~> 2.1.0'
+  gem 'rubocop', '~> 1.48.0'
 end
 
 group :integration do
-  gem 'inspec', '~> 1'
+  gem 'inspec', '~> 5'
   gem 'kitchen-inspec'
   gem 'kitchen-vagrant'
   gem 'test-kitchen'
 end
 
 group :tools do
-  gem 'github_changelog_generator', '~> 1.12.0'
+  gem 'github_changelog_generator', '~> 1.16.0'
 end
