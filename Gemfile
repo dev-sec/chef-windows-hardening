@@ -5,7 +5,7 @@ gem 'chef', '~> 18.0'
 
 group :test do
   gem 'foodcritic', '~> 16.0'
-  gem 'highline', '~> 2.1.0'
+  gem 'highline', '~> 3.0.0'
   gem 'rubocop', '~> 1.62.0'
 end
 
