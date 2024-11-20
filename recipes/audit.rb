@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Recipe:: audit-logging
 #
-# Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
+# Copyright:: (c) 2016 Joe Gardiner, All Rights Reserved.
 
-return unless node['platform_family'] == 'windows'
+return unless platform_family?('windows')
 
 # Configure System Event Log (Application)
 # windows-baseline: windows-audit-100
@@ -12,7 +12,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Applicatio
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 4_194_240
+    data: 4_194_240,
   }]
   recursive true
   action :create
@@ -24,7 +24,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Security' 
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 4_194_240
+    data: 4_194_240,
   }]
   recursive true
   action :create
@@ -36,7 +36,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\Setup' do
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 4_194_240
+    data: 4_194_240,
   }]
   recursive true
   action :create
@@ -48,7 +48,7 @@ registry_key 'HKLM\\Software\\Policies\\Microsoft\\Windows\\EventLog\\System' do
   values [{
     name: 'MaxSize',
     type: :dword,
-    data: 4_194_240
+    data: 4_194_240,
   }]
   recursive true
   action :create
