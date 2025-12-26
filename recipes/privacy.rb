@@ -3,7 +3,7 @@ registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Settin
   values [{
     name: 'value',
     type: :dword,
-    data: 0
+    data: 0,
   }]
   recursive true
   action :create
@@ -22,7 +22,7 @@ registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Sea
   values [{
     name: 'AllowIndexingEncryptedStoresOrItems',
     type: :dword,
-    data: 0
+    data: 0,
   }]
   action :create
   recursive true

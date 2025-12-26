@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Recipe:: powershell
 #
 
@@ -9,7 +9,7 @@ registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\
   values [{
     name: 'EnableScriptBlockLogging',
     type: :dword,
-    data: 0
+    data: 0,
   }]
   action :create
   recursive true
@@ -21,7 +21,7 @@ registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\
   values [{
     name: 'EnableTranscripting',
     type: :dword,
-    data: 0
+    data: 0,
   }]
   action :create
   recursive true
