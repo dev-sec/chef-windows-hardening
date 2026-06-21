@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Recipe:: rdp
 #
-# Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
+# Copyright:: (c) 2016 Joe Gardiner, All Rights Reserved.
 
-return unless node['platform_family'] == 'windows'
+return unless platform_family?('windows')
 
 if node['windows_hardening']['rdp']['harden'] == true
   # Windows Remote Desktop Configured to Always Prompt for Password
@@ -13,7 +13,7 @@ if node['windows_hardening']['rdp']['harden'] == true
     values [{
       name: 'fPromptForPassword',
       type: :dword,
-      data: 1
+      data: 1,
     }]
     recursive true
     action :create
@@ -25,7 +25,7 @@ if node['windows_hardening']['rdp']['harden'] == true
     values [{
       name: 'MinEncryptionLevel',
       type: :dword,
-      data: 3
+      data: 3,
     }]
     recursive true
     action :create
