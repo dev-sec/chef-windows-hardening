@@ -10,7 +10,7 @@ group :test do
 end
 
 group :integration do
-  gem 'inspec', '~> 5'
+  gem 'inspec', '~> 7'
   gem 'kitchen-inspec'
   gem 'kitchen-vagrant'
   gem 'test-kitchen'
