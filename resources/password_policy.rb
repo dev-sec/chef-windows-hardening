@@ -1,5 +1,6 @@
 resource_name :password_policy
 provides :password_policy
+unified_mode true
 
 property :policy_name, String, name_property: true
 property :policy_command, String, required: true

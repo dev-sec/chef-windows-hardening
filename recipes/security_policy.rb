@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: windows-hardening
+# Cookbook:: windows-hardening
 # Recipe:: account-lockout
 #
-# Copyright (c) 2016 Joe Gardiner, All Rights Reserved.
+# Copyright:: (c) 2016 Joe Gardiner, All Rights Reserved.
 
-return unless node['platform_family'] == 'windows'
+return unless platform_family?('windows')
 
 # cis: account-lockout-duration 1.2.1,
 # cis: reset-account-lockout 1.2.3
